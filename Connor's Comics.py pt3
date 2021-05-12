@@ -1,0 +1,80 @@
+from tkinter import *
+from tkinter import ttk
+import random
+
+root = Tk()
+root.title("Connor's Comics")
+
+#Setting variables for STOCK
+super_dude = 8
+lizard_man = 12
+water_woman = 3
+
+#Taking Away 1 stock of a book inside the dropdown menu when bought
+def change_book():
+    global numbook, super_dude, lizard_man, water_woman
+    book = chosen_option.get()
+    if book == 'Super Dude':
+        if super_dude > 0:
+            super_dude -= 1
+        else:
+            pass
+    elif book == 'Lizard Man':
+        if lizard_man > 0:
+            lizard_man -= 1
+        else:
+            pass
+    elif book == 'Water Woman':
+        if water_woman > 0:
+            water_woman -= 1
+        else:
+            pass
+    else:
+        pass
+#Linking to the STOCK
+    balance_string = 'Super Dude: { } \nLizard Man: { } \nWater Woman: { }'.format(super_dude, lizard_man, water_woman)
+    stock_lvl.set( balance_string)
+    
+###########################Left Frame##########################
+left_frame = ttk.LabelFrame(root, text= "BUY")
+left_frame.grid(row=0, column=0, padx=10, pady=10, sticky="NSEW")
+
+#Creating the Dropdown Menu
+chosen_option = StringVar()
+options = ['Super Dude', 'Lizard Man', 'Water Woman']
+option_menu = ttk.OptionMenu(left_frame, chosen_option, options[0], *options)
+option_menu.grid(row=1, column=0, padx=10, pady=10)
+
+buy_button = Button(left_frame, text="Buy Item", command=change_book)
+buy_button.grid(row=2, column=0, padx=10, pady=10,sticky="NS")
+
+############################Middle Frame#############################
+middle_frame = ttk.LabelFrame(root, text= "STOCK")
+middle_frame.grid(row=0, column=1, padx=10, pady=10, sticky="NSEW")
+
+#Setting Stock
+stock_lvl = StringVar()
+stock_lvl.set("Super Dude: 8 \nLizard Man: 12 \nWater Women: 3")
+stock_label = ttk.Label(middle_frame, textvariable=stock_lvl)
+stock_label.grid(row=0, column=1)
+
+##############################Right Frame############################
+right_frame = ttk.LabelFrame(root, text= "RESTOCK")
+right_frame.grid(row=0, column=2, padx=10, pady=10, sticky="NSEW")
+right_text = StringVar()
+right_text.set("greetings")
+
+right_message = ttk.Label(right_frame, textvariable=right_text)
+right_message.grid(row=0, column=0, padx=10, pady=10)
+
+##############################Bottom Frame#############################
+bottom_frame = ttk.LabelFrame(root, text="TEXT")
+bottom_frame.grid(row=5, column=0, padx=10, pady=10, sticky="SNEW")
+
+#Settinging the Message Text Variable
+bottom_text = StringVar()
+bottom_text.set("Connor Starke 2021 CC")
+
+bottom_message = ttk.Label(bottom_frame, textvariable=bottom_text)
+bottom_message.grid(row=0, column=0, padx=10, pady=10)
+
