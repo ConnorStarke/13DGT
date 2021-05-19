@@ -1,0 +1,137 @@
+from tkinter import *
+from tkinter import ttk
+import tkinter
+from tkinter import messagebox
+
+#Creating Window
+root = Tk()
+root.title("Connor's Comics")
+
+#Setting variables for STOCK
+super_dude = 8
+lizard_man = 12
+water_woman = 3
+total_bought = 0
+
+#Taking Away 1 stock of a book inside the dropdown menu when bought
+def change_book():
+    global numbook, super_dude, lizard_man, water_woman,total_bought
+    book = chosen_option.get()
+    if book == "Super Dude":
+        if super_dude > 0:
+            super_dude -= 1
+            total_bought += 1
+            popupmessage("You have purchased Super Dude")
+        else:
+            popupmsg("Super Dude is out of Stock")
+    elif book == "Lizard Man":
+        if lizard_man > 0:
+            lizard_man -= 1
+            total_bought += 1
+        else:
+            popupmsg("Lizard Man is out of Stock")
+    elif book == "Water Woman":
+        if water_woman > 0:
+            water_woman -= 1
+            total_bought += 1
+        else:
+            popupmsg("Water Woman is out of Stock")
+    else:
+        pass
+
+
+#Updating purchase to the STOCK
+    stock_lvl.set( "Super Dude: {} \nLizard Man: {} \nWater Woman: {}\nTotal Bought: {}".format(super_dude, lizard_man, water_woman, total_bought))
+
+#Input can only be an integer
+def existing_number_validate(char):
+    if char.isdigit():
+        return True
+    else:
+        return False
+    
+#Out of STOCK message
+def popupmsg(msg):
+  messagebox.showerror('ERROR"', msg)
+  
+#Successful Purchase
+def popupmessage(message):
+  messagebox.showinfo('SUCCSESS"', message)
+
+#Adding Input Integer to STOCK
+def  restock_book():
+    global book_count, water_woman, super_dude, lizard_man
+    numbook = int(amount_entry.get())
+    book = restock_option.get()
+    if book == "Super Dude":
+        super_dude += numbook
+    elif book == "Lizard Man":
+        lizard_man += numbook
+    elif book == "Water Woman":
+        water_woman += numbook
+    else:
+        print("E@#")
+        pass
+#Updating the STOCK levels
+    stock_lvl.set("Super Dude: {}\nLizard Man: {}\nWater Woman: {}\nTotal Bought: {}".format(super_dude, lizard_man, water_woman, total_bought))
+
+##############################Left Frame#############################
+left_frame = ttk.LabelFrame(root, text= "BUY")
+left_frame.grid(row=0, column=0, padx=10, pady=10, sticky="NSEW")
+
+#Creating the Dropdown Menu
+chosen_option = StringVar()
+options = ['Super Dude', 'Lizard Man', 'Water Woman']
+option_menu = ttk.OptionMenu(left_frame, chosen_option, options[0], *options)
+option_menu.grid(row=1, column=0, padx=10, pady=10)
+
+#Buy button to purchace comic
+buy_button = Button(left_frame, text="Buy Item", command=change_book)
+buy_button.grid(row=2, column=0, padx=10, pady=10,sticky="NS")
+
+############################Middle Frame#############################
+middle_frame = ttk.LabelFrame(root, text= "STOCK")
+middle_frame.grid(row=0, column=1, padx=10, pady=10, sticky="NSEW")
+
+#Setting Stock and then displaying it
+stock_lvl = StringVar()
+stock_lvl.set("Super Dude: 8 \nLizard Man: 12 \nWater Women: 3\nTotal Bought: 0")
+stock_label = ttk.Label(middle_frame, textvariable=stock_lvl)
+stock_label.grid(row=0, column=1)
+
+##############################Right Frame############################
+right_frame = ttk.LabelFrame(root, text= "RESTOCK")
+right_frame.grid(row=0, column=2, padx=10, pady=10, sticky="NSEW")
+
+#Dropdown menu for restocking
+restock_option = StringVar()
+options = ['Super Dude', 'Lizard Man', 'Water Woman']
+option_menu = ttk.OptionMenu(right_frame, restock_option, options[0], *options)
+option_menu.grid(row=1, column=0, padx=10, pady=10)
+
+#integer input
+numbook = DoubleVar()
+numbook.set("")
+
+#User can only Input Integers 
+amount_entry_command = right_frame.register(existing_number_validate)
+amount_entry = ttk.Entry(right_frame, textvariable=numbook, validate='all', validatecommand=(amount_entry_command, '%S'))
+amount_entry.grid(row=0, column=0, padx=10, pady=3, sticky="WE")
+
+#Restock Button
+restock_button = Button(right_frame, text="Restock", command=restock_book)
+restock_button.grid(row=2, column=0, padx=10, pady=10,sticky="NS")
+
+##############################Bottom Frame#############################
+bottom_frame = ttk.LabelFrame(root, text="Copyright")
+bottom_frame.grid(row=5, column=0, columnspan=3, padx=10, pady=10, sticky="SNEW")
+
+#Text for inside of the bottom frame
+bottom_text = StringVar()
+bottom_text.set("Connor Starke 2021 CC")
+bottom_message = ttk.Label(bottom_frame, textvariable=bottom_text)
+bottom_message.grid(row=0, column=0, padx=10, pady=10)
+
+
+
+
